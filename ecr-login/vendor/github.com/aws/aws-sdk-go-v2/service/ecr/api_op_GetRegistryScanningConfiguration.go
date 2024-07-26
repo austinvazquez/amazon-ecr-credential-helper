@@ -33,7 +33,7 @@ type GetRegistryScanningConfigurationInput struct {
 
 type GetRegistryScanningConfigurationOutput struct {
 
-	// The ID of the registry.
+	// The registry ID associated with the request.
 	RegistryId *string
 
 	// The scanning configuration for the registry.
@@ -101,6 +101,9 @@ func (c *Client) addOperationGetRegistryScanningConfigurationMiddlewares(stack *
 		return err
 	}
 	if err = addTimeOffsetBuild(stack, c); err != nil {
+		return err
+	}
+	if err = addUserAgentRetryMode(stack, options); err != nil {
 		return err
 	}
 	if err = stack.Initialize.Add(newServiceMetadataMiddleware_opGetRegistryScanningConfiguration(options.Region), middleware.Before); err != nil {

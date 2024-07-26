@@ -57,9 +57,6 @@ type CreatePullThroughCacheRuleInput struct {
 	//   - Microsoft Azure Container Registry ( azure-container-registry ) -
 	//   .azurecr.io
 	//
-	//   - GitLab Container Registry ( gitlab-container-registry ) -
-	//   registry.gitlab.com
-	//
 	// This member is required.
 	UpstreamRegistryUrl *string
 
@@ -162,6 +159,9 @@ func (c *Client) addOperationCreatePullThroughCacheRuleMiddlewares(stack *middle
 		return err
 	}
 	if err = addTimeOffsetBuild(stack, c); err != nil {
+		return err
+	}
+	if err = addUserAgentRetryMode(stack, options); err != nil {
 		return err
 	}
 	if err = addOpCreatePullThroughCacheRuleValidationMiddleware(stack); err != nil {

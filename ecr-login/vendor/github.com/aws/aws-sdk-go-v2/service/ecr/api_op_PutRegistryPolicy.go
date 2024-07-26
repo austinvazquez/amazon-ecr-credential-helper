@@ -51,7 +51,7 @@ type PutRegistryPolicyOutput struct {
 	// The JSON policy text for your registry.
 	PolicyText *string
 
-	// The registry ID.
+	// The registry ID associated with the request.
 	RegistryId *string
 
 	// Metadata pertaining to the operation's result.
@@ -116,6 +116,9 @@ func (c *Client) addOperationPutRegistryPolicyMiddlewares(stack *middleware.Stac
 		return err
 	}
 	if err = addTimeOffsetBuild(stack, c); err != nil {
+		return err
+	}
+	if err = addUserAgentRetryMode(stack, options); err != nil {
 		return err
 	}
 	if err = addOpPutRegistryPolicyValidationMiddleware(stack); err != nil {

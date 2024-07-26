@@ -34,7 +34,7 @@ type DescribeRegistryInput struct {
 
 type DescribeRegistryOutput struct {
 
-	// The ID of the registry.
+	// The registry ID associated with the request.
 	RegistryId *string
 
 	// The replication configuration for the registry.
@@ -102,6 +102,9 @@ func (c *Client) addOperationDescribeRegistryMiddlewares(stack *middleware.Stack
 		return err
 	}
 	if err = addTimeOffsetBuild(stack, c); err != nil {
+		return err
+	}
+	if err = addUserAgentRetryMode(stack, options); err != nil {
 		return err
 	}
 	if err = stack.Initialize.Add(newServiceMetadataMiddleware_opDescribeRegistry(options.Region), middleware.Before); err != nil {
